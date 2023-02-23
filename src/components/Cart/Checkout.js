@@ -1,7 +1,16 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import classes from './Checkout.module.css';
 
+const isEmpty = value => value.trim() === ''
+const isFiveChars = value => value.trim().length == 5
+
 const Checkout = (props) => {
+  const [formInputsValidity, setFormInputsValidity] = useState({
+    name: true,
+    street: true,
+    city: true,
+    postalCode:true,
+  })
   const nameInputRef = useRef()
   const streetInputRef = useRef()
   const postalCodeInputRef = useRef()
@@ -14,6 +23,26 @@ const Checkout = (props) => {
     const enteredStreet = streetInputRef.current.value
     const enteredPostalCode = postalCodeInputRef.current.value
     const enteredCity = cityInputRef.current.value
+
+    const enteredNameIsValid = !isEmpty(enteredName)
+    const enteredStreetIsValid = !isEmpty(enteredStreet)
+    const enteredCityIsValid = !isEmpty(enteredCity)
+    const enteredPostalCodeIsValid = isFiveChars(enteredPostalCode)
+
+    setFormInputsValidity ({
+      name: enteredNameIsValid,
+      street: enteredStreetIsValid,
+      city: enteredCityIsValid,
+      PostalCode: ente
+    })
+
+    const formIsValid = enteredNameIsValid && enteredStreetIsValid && enteredCityIsValid && enteredPostalCodeIsValid
+
+    if (!formIsValid) {
+      return 
+    }
+
+    //submit the data
   };
 
   return (
