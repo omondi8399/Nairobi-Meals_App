@@ -8,6 +8,8 @@ import Checkout from './Checkout';
 
 const Cart = (props) => {
   const [isCheckout, setIsCheckout] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [didSubmit, setDidSubmit] = useState(false)
   const cartCtx = useContext(CartContext);
 
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
@@ -26,13 +28,16 @@ const Cart = (props) => {
   }
 
 const submitOrderHandler = (userData) => {
-  fetch('https://react-http-2f55c-default-rtdb.firebaseio.com/', {
+  setIsSubmitting(true)
+    await fetch('https://react-http-2f55c-default-rtdb.firebaseio.com/', {
     method: 'POST',
     body: JSON.stringify({
       user: userData,
       orderedItems: cartCtx.items
     })
   })
+  setIsSubmitting(false)
+  setDidSubmit(true)
 }
 
   const cartItems = (
@@ -56,6 +61,8 @@ const submitOrderHandler = (userData) => {
   </button>
   {hasItems && <button className={classes.button} onClick={orderHandler}>Order</button>}
 </div>
+
+const cartModalContent = 
 
   return (
     <Modal onClose={props.onClose}>
